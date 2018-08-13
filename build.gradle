@@ -1,0 +1,229 @@
+task wrapper(type: Wrapper) {
+	gradleVersion = '4.8.1'
+}
+
+buildscript {
+	ext {
+		springBootVersion = '1.5.7.RELEASE' // uz je 1.5.10.RELEASE // 2.0.0.RC2
+		propDepsPluginVersion = '0.0.9.RELEASE'
+		//eclipseLinkJamgoPluginVersion = '0.2.2'
+	}
+	repositories {
+		mavenLocal ()
+		jcenter()
+		// propdeps plugin (enable+disable devtools if on development)
+		maven { url 'http://repo.spring.io/plugins-release' }
+    	maven { url "https://plugins.gradle.org/m2/" }
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath("io.spring.gradle:propdeps-plugin:${propDepsPluginVersion}")
+    	//classpath("gradle.plugin.org.jamgo:eclipselink-plugin:${eclipseLinkJamgoPluginVersion}")
+	}
+}
+
+allprojects {
+	// Dependency Management which allows to import the Maven BOM dependencies
+	// https://github.com/spring-gradle-plugins/dependency-management-plugin
+	apply plugin: 'io.spring.dependency-management'
+	
+	// IDE Integration
+	apply plugin: 'eclipse'
+	// Dev Tools: https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#using-boot-devtools
+	// https://github.com/spring-gradle-plugins/propdeps-plugin
+    apply plugin: 'propdeps'
+    apply plugin: 'propdeps-maven'
+    apply plugin: 'propdeps-idea'
+    apply plugin: 'propdeps-eclipse'
+	
+	// Classification -- Artifact GroupID and version number is shared across all submodules.
+	group = 'shop-allinone'
+	// ??? Lze pouzit?: group = rootProject.name 
+	version = '0.0.1-SNAPSHOT'
+
+	// In this section you declare where to find the dependencies of your project
+	repositories {
+		mavenLocal ()
+	    // Use jcenter for resolving your dependencies.
+	    // You can declare any Maven/Ivy/file repository here.
+	    jcenter()
+	}
+	
+	// Inklucujeme verze zavislosti, ktere pouziva spring-boot
+	// (nemusime je pak explicitne specifikovat)
+	// https://github.com/spring-gradle-plugins/dependency-management-plugin
+	dependencyManagement {
+		imports {
+			mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
+		}
+	}
+	
+}
+
+/**
+	MULTI-MODULE BUILD
+	==================
+	https://docs.gradle.org/current/userguide/intro_multi_project_builds.html
+	https://docs.gradle.org/current/userguide/multi_project_builds.html
+*/
+subprojects {
+	// Apply the java plugin to add support for Java
+	apply plugin: 'java'
+	
+	// All java subprojects run on JRE 1.8
+	sourceCompatibility = 1.8
+	targetCompatibility = 1.8
+	
+	dependencies {
+		// Add logging through log4j2
+		// https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto-configure-log4j-for-logging
+		compile "org.springframework.boot:spring-boot-starter-log4j2"
+	}
+	
+	configurations.all {
+		// Exclude default logback logging in order to use Log4j2: 
+		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+		//exclude group:"ch.qos.logback", module:"logback-core"
+	}
+}
+
+project(':shop-allinone-core')
+{
+	//apply plugin: "org.jamgo.eclipselink-plugin"
+	ext {
+		projectNameLong = 'Backoffice - Product Definitions Core'
+		projectDescription = 'Library for accessing the products definition core functions (as well as persistence)'
+	}
+	
+	// https://docs.gradle.org/current/userguide/java_library_plugin.html
+	//apply plugin: 'java-library'
+	
+	sourceSets {
+		test {
+			java {
+				srcDirs = [
+					'src/test/unit/java'
+				]
+			}
+			resources {
+				srcDirs = [
+					'src/test/unit/resources',
+					'src/test/unit/java' // java adresar duplicitne vlozim, aby byly videt soubory prilozene v tomto adresari
+				]
+			}
+		}
+	}
+	
+	dependencies {
+		// Spring boot
+		//compile "org.springframework.boot:spring-boot-starter-web"
+		// Tests
+		//testCompile "org.springframework.boot:spring-boot-starter-test"
+		
+		
+		// https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-sql.html
+		// Spring-boot DATA + JPA + JDBC + AOP support
+		compile ("org.springframework.boot:spring-boot-starter-data-jpa") {
+			// use eclipse-link, not hibernate
+			exclude group: "org.hibernate", module: "hibernate-core"             // org.hibernate:hibernate-core:5.0.12.Final
+			exclude group: "org.hibernate", module: "hibernate-entitymanager"    // org.hibernate:hibernate-entitymanager:5.0.12.Final
+		}
+		// JPA implementation: Eclipse Link
+		compile "org.eclipse.persistence:org.eclipse.persistence.jpa:2.7.3"
+		
+		
+		//
+		// Only for development
+		//
+		optional("org.springframework.boot:spring-boot-devtools")
+		// Concrete DB support
+		// INFO: Toto by nikdy neměla být závislost reálného projektu, ale nyní to použijme:
+		//runtime "org.apache.derby:derby"
+		// https://dzone.com/articles/using-the-h2-database-console-in-spring-boot-with
+		testRuntime("com.h2database:h2")
+		
+		// Tests
+		testCompile "org.springframework.boot:spring-boot-starter-test"
+	}
+
+	/* HOW TO PERFORM EclipseLink - compile-time weaving?
+	- https://stackoverflow.com/questions/22997757/how-to-enable-eclipselinks-static-weaving-from-gradle
+	^^^^^^^^^^^^^
+	* /
+	task performJPAWeaving(type: JavaExec, dependsOn: "compileJava"){
+	  inputs.dir compileJava.destinationDir
+	  outputs.dir compileJava.destinationDir
+	  main "org.eclipse.persistence.tools.weaving.jpa.StaticWeave"
+	  args  "-persistenceinfo",
+	   "src/main/resources",
+	   compileJava.destinationDir.getAbsolutePath(),
+	   compileJava.destinationDir.getAbsolutePath()
+	   classpath = configurations.compile
+	}
+	
+	tasks.withType(Jar){
+	  dependsOn "performJPAWeaving"
+	}
+	/ *
+	tasks.withType(Jar){
+	  dependsOn "eclipselinkStaticWeave"
+	}
+	*/
+}
+
+project(':shop-allinone-webapp')
+{
+	// Toto je spring-boot aplikace
+	apply plugin: 'org.springframework.boot'
+	
+	ext {
+		projectNameLong = 'Shop Backoffice Application'
+		projectDescription = 'Used for configuration of products in our simple shop application.'
+	}
+	
+	dependencies {
+		// ZAVISLOST NA VNITRNI KNIHOVNE _CORE_
+		compile project(':shop-allinone-core') 
+		
+		// Spring boot
+		compile("org.springframework.boot:spring-boot-starter-web") {
+			// exclude default logging
+			exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+		}
+		// Thymeleaf templating engine
+		compile "org.springframework.boot:spring-boot-starter-thymeleaf"
+		
+		
+		// https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-sql.html
+		// JPA support
+		compile ("org.springframework.boot:spring-boot-starter-data-jpa") {
+			// use eclipse-link, not hibernate
+			exclude group: "org.hibernate", module: "hibernate-core"             // org.hibernate:hibernate-core:5.0.12.Final
+			exclude group: "org.hibernate", module: "hibernate-entitymanager"    // org.hibernate:hibernate-entitymanager:5.0.12.Final
+		}
+		// JPA implementation: Eclipse Link
+		compile "org.eclipse.persistence:org.eclipse.persistence.jpa:2.7.3"
+		
+		// JDBC support (already included in spring-boot-starter-data-jpa)
+		// ""You need a dependency on spring-jdbc for an embedded database to be auto-configured. In this example it’s pulled in transitively via spring-boot-starter-data-jpa.""
+		compile "org.springframework:spring-jdbc"
+		
+		// Concrete DB support
+		// INFO: Toto by nikdy neměla být závislost reálného projektu, ale nyní to použijme:
+		//runtime "org.apache.derby:derby"
+		// https://dzone.com/articles/using-the-h2-database-console-in-spring-boot-with
+		compile "com.h2database:h2"
+		
+		// Oracle JDBC Driver (has some licensing with it)
+		//compile fileTree(dir: 'libs', includes: ['/**/*.jar'])
+		compile fileTree(dir: "$rootDir/libs", includes: ['ojdbc6.jar'])
+		
+		// Tests
+		testCompile "org.springframework.boot:spring-boot-starter-test"
+		
+		// Only for development
+		optional "org.springframework.boot:spring-boot-devtools"
+		
+	}
+	
+}
