@@ -1,0 +1,31 @@
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Shop BackOffice</title>
+    <link rel="stylesheet" th:href="@{/style.css}"></link>
+  </head>
+  <body>
+    <h1>Welcome</h1>
+    
+    <p>
+    Welcome to our shop.
+    </p><p>
+    To buy our excellent coffe, please go <a th:href="@{/shop/}">into the shop</a>.
+    </p>
+    
+    <h2>Backoffice</h2>
+    <p>This section is intended for shop admins only.
+    </p><p>
+    To manage the products and their definitions, click <a th:href="@{/admin/products}">here</a>.
+	</p>
+	
+	<h2>Database Console</h2>
+	<p>
+	Direct access to the application's in-memory database is provided <a th:href="@{/console}" target="_blank">through an integrated H2 console</a>.
+	<br/>On login, use <code>JDBC URL = jdbc:h2:mem:testdb</code>.
+	</p>
+	
+	<h2>Give the student a chance</h2>
+	<p>To give A to Tomáš Rohrbacher for 2OOP3, click <a href="https://portal.osu.cz">here</a>.</p>
+		    
+  </body>
+</html>

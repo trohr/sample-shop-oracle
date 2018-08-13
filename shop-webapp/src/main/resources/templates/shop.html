@@ -1,0 +1,69 @@
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Coffee Shop</title>
+    <link rel="stylesheet" th:href="@{/style.css}"></link>
+  </head>
+  <body>
+    <h2>Coffee Shop</h2>
+    
+    	<form method="GET">
+    		Search by name: 
+    		<input type="search" name="searchByName" th:value="${searchByName eq null ? '' : searchByName}"></input>
+				<input type="submit" value="Search"/>
+    	</form>
+    	
+    <div th:unless="${#lists.isEmpty(products)}">
+    
+    	<!-- SORT FORM -->
+    	<form method="GET">
+    		Sort products by price
+<!--     		<select name="priceOrdering" th:selected="${priceOrdering eq null ? 'NONE' : priceOrdering}"> -->
+    		<select name="priceOrdering">
+				  <option value="NONE" th:selected="${priceOrdering eq null}">unspecified</option>
+				  <option value="ASC" th:selected="${priceOrdering == 'ASC'}">ascending</option>
+				  <option value="DESC" th:selected="${priceOrdering == 'DESC'}">descending</option>
+				</select>
+				<input type="submit" value="Sort"/>
+    	</form>
+    	
+    	
+    	<br />
+    	
+    	<!-- DATA TABLE -->
+    	<table>
+    		<tr><!-- HEADER ROW -->
+    			<th>Preview</th>
+    			<th>Name</th>
+    			<th>Specification</th>
+    			<th>Price</th>
+    		</tr>
+    		
+      	<tr th:each="product : ${products}">
+      		<td><img th:src="${product.imageUrl}" width="50" height="50" /></td>
+      		
+      		<td th:text="${product.name}">Product Code</td>
+      		<td th:text="${product.specification}">Specification</td>
+      		<td th:text="${product.price}">Price</td>
+<!--       		<td th:text="${product.caption}">Caption</td> -->
+<!--       		<td th:text="${product.tags}">Tags</td> -->
+      		<td>
+      			<form method="post" th:action="@{/shop/cart/add}">
+<!--       			<a th:href="@{/products}+'/'+${product.id}+'/edit'">Edit</a> -->
+					<input type="hidden" name="productId" th:value="${product.id}" />
+      				<input type="submit" value="Add to cart" />
+      			</form>
+     		</td>
+      	</tr>
+     	</table>
+    </div>
+    
+    <div th:if="${#lists.isEmpty(products)}">
+      <p>There are no products in the system.</p>
+    </div>
+
+		<hr/>
+<!--     <a th:href="@{/products/create}">Create a New Product</a> -->
+    <a th:href="@{/}">Go to the first page</a>
+    
+  </body>
+</html>
