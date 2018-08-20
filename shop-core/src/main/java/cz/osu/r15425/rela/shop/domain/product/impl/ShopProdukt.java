@@ -20,7 +20,6 @@ public class ShopProdukt implements Serializable {
 	@Column(unique=true, nullable=false)
 	private Long id;
 
-	
 	@Column(nullable=false, length=256)
 	private String name;
 
@@ -38,6 +37,9 @@ public class ShopProdukt implements Serializable {
 
 	@Column(name="UNIT_PRICE", precision=18, scale=2)
 	private BigDecimal unitPrice;
+
+	@Column(nullable=false, length=1)
+	private String valid;
 
 	public ShopProdukt() {
 	}
@@ -96,6 +98,14 @@ public class ShopProdukt implements Serializable {
 
 	public void setUnitPrice(BigDecimal unitPrice) {
 		this.unitPrice = unitPrice;
+	}
+
+	public String getValid() {
+		return this.valid;
+	}
+
+	public void setValid(String valid) {
+		this.valid = valid;
 	}
 
 }

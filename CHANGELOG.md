@@ -1,6 +1,12 @@
 Changelog for sample-shop-oracle
 ================================
 
+## 19.8.2018
+Support for basket of selected items.
+Features:
+- show basket and its items
+- add item to basket (via stored procedure `SHOP_Kosik_add_item`)
+
 ## 13.8.2018
 Initial commit.
 Features:

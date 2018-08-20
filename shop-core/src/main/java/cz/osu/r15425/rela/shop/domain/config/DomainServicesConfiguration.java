@@ -11,6 +11,9 @@ import org.springframework.context.annotation.ComponentScans;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
+import cz.osu.r15425.rela.shop.domain.basket.BasketServiceImpl;
+import cz.osu.r15425.rela.shop.domain.product.ProductsDefinitionServiceImpl;
+
 /**
  * <h2>DomainServicesConfiguration</h2>
  * @author rohrbacher (rohrbacher@elvoris.cz)
@@ -20,8 +23,10 @@ import org.springframework.context.annotation.Import;
 	RepositoryConfiguration.class
 })
 @ComponentScans({
-	@ComponentScan(basePackages= {
-			"cz.osu.r15425.rela.shop.domain.product"
+	@ComponentScan(basePackageClasses= {
+			//"cz.osu.r15425.rela.shop.domain.product"
+			ProductsDefinitionServiceImpl.class,
+			BasketServiceImpl.class
 	})
 })
 public class DomainServicesConfiguration

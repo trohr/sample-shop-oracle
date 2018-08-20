@@ -1,0 +1,61 @@
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Basket</title>
+    <link rel="stylesheet" th:href="@{/style.css}"></link>
+  </head>
+  <body>
+    <h2>Basket</h2>
+    
+    
+    <div th:unless="${#lists.isEmpty(basket.items)}">
+    
+    	<!-- DATA TABLE -->
+    	<table>
+    		<tr><!-- HEADER ROW -->
+    			<th>#</th>
+    			<th>Preview</th>
+    			<th>Product Name</th>
+    			<th>Product Code</th>
+    			<th>Price</th>
+    			<th>Caption</th>
+<!--     			<th>Tags</th> -->
+    			<th>Quantity</th>
+<!--     			<th>Update</th> -->
+<!--     			<th>Remove</th> -->
+    		</tr>
+    		
+      	<tr th:each="item : ${basket.items}">
+      		<td th:text="${item.lineNo}">Line No.</td>
+      		
+      		<td><img th:unless="${item.product.imageUrl == null}" th:src="${item.product.imageUrl}" width="50" height="50" /></td>
+      		
+      		<td th:text="${item.product.name}">Product Name</td>
+      		<td th:text="${item.product.code}">Product Code</td>
+      		<td th:text="${item.unitPrice}">Unit price</td>
+      		<td th:text="${item.product.caption}">Caption</td>
+      		<td th:text="${item.quantity}">Quantity</td> <!-- TODO zde lze input field -->
+<!--       		<td><a th:href="@{/shop/basket/line}+'/'+${item.lineNo}+'/remove'">Remove from basket</a></td> -->
+      	</tr>
+     	</table>
+    </div>
+    
+    <div th:if="${#lists.isEmpty(basket.items)}">
+      <p>There are no items in the basket.</p>
+    </div>
+    
+    <div>
+    	<!-- Additional information -->
+    	<table>
+    		<tr><td>Record.id</td><td th:text="${basket.id}">record id</td></tr>
+    		<tr><td>Customer URI</td><td th:text="${basket.customerUri}">Customer URI</td></tr>
+    		<tr><td>UUID</td><td th:text="${basket.uuid}">UUID</td></tr>
+    		<tr><td>Valid until</td><td th:text="${basket.validUntil}">Valid until</td></tr>
+    		<tr><td>Last used</td><td th:text="${basket.lastUsed}">Last used</td></tr>
+    	</table>
+    </div>
+
+		<hr/>
+    <a th:href="@{/shop}">Back to the shop</a>
+    
+  </body>
+</html>

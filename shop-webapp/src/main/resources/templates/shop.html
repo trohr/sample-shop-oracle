@@ -47,10 +47,10 @@
 <!--       		<td th:text="${product.caption}">Caption</td> -->
 <!--       		<td th:text="${product.tags}">Tags</td> -->
       		<td>
-      			<form method="post" th:action="@{/shop/cart/add}">
+      			<form method="post" th:action="@{/shop/basket/add}">
 <!--       			<a th:href="@{/products}+'/'+${product.id}+'/edit'">Edit</a> -->
 					<input type="hidden" name="productId" th:value="${product.id}" />
-      				<input type="submit" value="Add to cart" />
+      				<input type="submit" value="Add to basket" />
       			</form>
      		</td>
       	</tr>
@@ -64,6 +64,7 @@
 		<hr/>
 <!--     <a th:href="@{/products/create}">Create a New Product</a> -->
     <a th:href="@{/}">Go to the first page</a>
+    <a th:href="@{/shop/basket}">Go to the basket</a>
     
   </body>
 </html>

@@ -6,6 +6,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import cz.osu.r15425.rela.shop.domain.basket.impl.ShopKosik;
+import cz.osu.r15425.rela.shop.domain.basket.impl.ShopKosikRepository;
+import cz.osu.r15425.rela.shop.domain.product.impl.ShopProdukt;
+import cz.osu.r15425.rela.shop.domain.product.impl.ShopProduktRepository;
+
 /**
 	Spring Data JPA CRUD Repository
 	===============================
@@ -24,8 +29,16 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @EnableAutoConfiguration
-@EntityScan(basePackages = {"cz.osu.r15425.rela.shop.domain.product.impl"})
-@EnableJpaRepositories(basePackages = {"cz.osu.r15425.rela.shop.domain.product.impl"})
+//@EntityScan(basePackages = {"cz.osu.r15425.rela.shop.domain.product.impl"})
+//@EnableJpaRepositories(basePackages = {"cz.osu.r15425.rela.shop.domain.product.impl"})
+@EntityScan(basePackageClasses= {
+		ShopProdukt.class,
+		ShopKosik.class,
+})
+@EnableJpaRepositories(basePackageClasses= {
+		ShopProduktRepository.class,
+		ShopKosikRepository.class,
+})
 @EnableTransactionManagement
 public class RepositoryConfiguration
 {

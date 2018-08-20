@@ -103,6 +103,12 @@ Pro plnou integraci JPA s Oracle objektovymi typy je nutne pouzit Eclipse-link.
 Postupováno dle návodu: <https://www.baeldung.com/spring-eclipselink>
 
 
+Vygenerování JPA entit
+----------------------
+Kod JPA anotovaných tříd vygenerován na základě zavedených tabulek v D Oracle 11g za pomocí IDE Eclipse.
+- Vygenerování JPA entit pro Oracle: <https://docs.oracle.com/cd/E14545_01/help/oracle.eclipse.tools.orm.doc/html/files/genJPAEntities.html>
+- Připojení na DB Oracle z Eclipse: <https://docs.oracle.com/cd/E14545_01/help/oracle.eclipse.tools.database.doc/html/gettingStarted/files/gettingStarted.html>
+
 
 Modularizace zdrojového kódu (Gradle)
 -------------------------------------

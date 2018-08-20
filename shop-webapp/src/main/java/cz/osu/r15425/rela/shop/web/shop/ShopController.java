@@ -6,24 +6,17 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.ModelAndView;
 
 import cz.osu.r15425.rela.shop.domain.product.ProductDefinitionDto;
 import cz.osu.r15425.rela.shop.domain.product.ProductsDefinitionService;
 import cz.osu.r15425.rela.shop.domain.sorting.OrderBy;
-import cz.osu.r15425.rela.shop.web.interceptors.LastModelAndViewInterceptor;
 
 
 @Controller
@@ -116,59 +109,59 @@ public class ShopController {
 	// 
 	// ADD TO CART
 	// 
-
-	/**
-	 * 2) ADD PRODUCT TO CART
-	 */
-	@PostMapping("cart/add")
-	public ModelAndView addProductToCart (
-			@RequestParam (name="productId", required=true) long productId,
-			HttpSession session
-			)
-	{
-		String cartId = getCartId(session);
-		
-		
-		Optional<ModelAndView> prevModel = getPreviousModelAndViewBySession(session);
-		if (prevModel.isPresent())
-		{
-			return prevModel.get();
-			//return prevModel;
-		}
-		else
-		{
-			return new ModelAndView("redirect:"+PATH_SHOP);
-		}
-//		return "redirect:"+
-	}
-
-	protected String getCartId (HttpSession session)
-	{
-		String cartId = (String) session.getAttribute("Shop.CartID");
-		if (cartId == null) {
-			// generate cart id
-			cartId = "fake-cart-id";
-			session.setAttribute("Shop.CartID", cartId);
-		}
-		return cartId;
-	}
-
-	protected Optional<ModelAndView> getPreviousModelAndViewBySession(HttpSession session)
-	{
-		ModelAndView mv = (ModelAndView)session.getAttribute(LastModelAndViewInterceptor.LAST_MODEL_VIEW_ATTRIBUTE);
-		return Optional.ofNullable(mv);
-	}
-	/**
-	* Returns the viewName to return for coming back to the sender url
-	*
-	* @param request Instance of {@link HttpServletRequest} or use an injected instance
-	* @return Optional with the view name. Recomended to use an alternativa url with
-	* {@link Optional#orElse(java.lang.Object)}
-	*/
-	protected Optional<String> getPreviousPageByRequest(HttpServletRequest request)
-	{
-	   return Optional.ofNullable(request.getHeader("Referer")).map(requestUrl -> "redirect:" + requestUrl);
-	}
+//
+//	/**
+//	 * 2) ADD PRODUCT TO CART
+//	 */
+//	@PostMapping("cart/add")
+//	public ModelAndView addProductToCart (
+//			@RequestParam (name="productId", required=true) long productId,
+//			HttpSession session
+//			)
+//	{
+//		String cartId = getCartId(session);
+//		
+//		
+//		Optional<ModelAndView> prevModel = getPreviousModelAndViewBySession(session);
+//		if (prevModel.isPresent())
+//		{
+//			return prevModel.get();
+//			//return prevModel;
+//		}
+//		else
+//		{
+//			return new ModelAndView("redirect:"+PATH_SHOP);
+//		}
+////		return "redirect:"+
+//	}
+//
+//	protected String getCartId (HttpSession session)
+//	{
+//		String cartId = (String) session.getAttribute("Shop.CartID");
+//		if (cartId == null) {
+//			// generate cart id
+//			cartId = "fake-cart-id";
+//			session.setAttribute("Shop.CartID", cartId);
+//		}
+//		return cartId;
+//	}
+//
+//	protected Optional<ModelAndView> getPreviousModelAndViewBySession(HttpSession session)
+//	{
+//		ModelAndView mv = (ModelAndView)session.getAttribute(LastModelAndViewInterceptor.LAST_MODEL_VIEW_ATTRIBUTE);
+//		return Optional.ofNullable(mv);
+//	}
+//	/**
+//	* Returns the viewName to return for coming back to the sender url
+//	*
+//	* @param request Instance of {@link HttpServletRequest} or use an injected instance
+//	* @return Optional with the view name. Recomended to use an alternativa url with
+//	* {@link Optional#orElse(java.lang.Object)}
+//	*/
+//	protected Optional<String> getPreviousPageByRequest(HttpServletRequest request)
+//	{
+//	   return Optional.ofNullable(request.getHeader("Referer")).map(requestUrl -> "redirect:" + requestUrl);
+//	}
 
 
 //	/**

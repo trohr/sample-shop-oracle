@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cz.osu.r15425.rela.shop.domain.product;
+package cz.osu.r15425.rela.shop.domain.basket;
 
 import java.math.BigDecimal;
 
@@ -9,8 +9,7 @@ import java.math.BigDecimal;
  * @author Tomáš Rohrbacher (rohrbacher[at]elvoris.cz)
  *
  */
-// TODO priste pouzit Kotlin a jeho data class
-public class ProductDefinitionDto {
+public class ProductInfoDto {
 
 	private Long id;
 
@@ -18,11 +17,11 @@ public class ProductDefinitionDto {
 	private String name;
 	private String caption;
 	private BigDecimal price;
-	private String specification;
+//	private String specification;
 	private String imageUrl;
 //	private String tags;
 	
-	public ProductDefinitionDto() {
+	public ProductInfoDto() {
 		super();
 	}
 	
@@ -62,36 +61,17 @@ public class ProductDefinitionDto {
 		this.price = price;
 	}
 
-	public String getSpecification() {
-		return specification;
-	}
-	public void setSpecification(String specification) {
-		this.specification = specification;
-	}
+//	public String getSpecification() {
+//		return specification;
+//	}
+//	public void setSpecification(String specification) {
+//		this.specification = specification;
+//	}
 	public String getImageUrl() {
 		return imageUrl;
 	}
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
-	}
-
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("ProductDefinitionDto= {\"");
-		builder.append("id\"=\"").append(id).append("\", ");
-		builder.append("code\"=\"").append(code).append("\", ");
-		builder.append("name\"=\"").append(name).append("\", ");
-		//sbuilder.append("caption\"=\"").append(caption).append("\", ");
-		builder.append("price\"=\"").append(price).append("\"");
-		
-//		if (specification != null)
-//			builder.append("specification\"=\"").append(specification).append("\", ");
-//		if (imageUrl != null)
-//			builder.append("imageUrl\"=\"").append(imageUrl);
-		builder.append("}");
-		return builder.toString();
 	}
 
 //	public String getTags() {
@@ -101,5 +81,4 @@ public class ProductDefinitionDto {
 //		this.tags = tags;
 //	}
 //	
-	
 }
