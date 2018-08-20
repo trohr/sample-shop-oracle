@@ -15,16 +15,22 @@ import java.util.List;
 @NamedQuery(name="ShopKosik.findAll", query="SELECT s FROM ShopKosik s")
 @NamedStoredProcedureQueries({
 	@NamedStoredProcedureQuery(name=ShopKosik.NSPQ_Kosik_addItem, procedureName="SHOP_Kosik_add_item",
-			parameters= {
-					@StoredProcedureParameter(mode=ParameterMode.IN, name="kosik_id", type=Long.class),
-					@StoredProcedureParameter(mode=ParameterMode.IN, name="produkt_id", type=Long.class),
-					@StoredProcedureParameter(mode=ParameterMode.IN, name="quantity", type=Integer.class),
-			})
+		parameters= {
+				@StoredProcedureParameter(mode=ParameterMode.IN, name="kosik_id", type=Long.class),
+				@StoredProcedureParameter(mode=ParameterMode.IN, name="produkt_id", type=Long.class),
+				@StoredProcedureParameter(mode=ParameterMode.IN, name="quantity", type=Integer.class),
+		}),
+	@NamedStoredProcedureQuery(name=ShopKosik.NSPQ_Kosik_removeLine, procedureName="SHOP_Kosik_remove_line",
+		parameters= {
+				@StoredProcedureParameter(mode=ParameterMode.IN, name="p_kosik_id", type=Long.class),
+				@StoredProcedureParameter(mode=ParameterMode.IN, name="p_line_no", type=Integer.class),
+		})
 })
 public class ShopKosik implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	public static final String NSPQ_Kosik_addItem = "ShopKosik.addItem";
+	public static final String NSPQ_Kosik_removeLine = "ShopKosik.removeLine";
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

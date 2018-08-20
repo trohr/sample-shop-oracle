@@ -24,7 +24,7 @@
 <!--     			<th>Tags</th> -->
     			<th>Quantity</th>
 <!--     			<th>Update</th> -->
-<!--     			<th>Remove</th> -->
+    			<th><!-- Remove --></th>
     		</tr>
     		
       	<tr th:each="item : ${basket.items}">
@@ -38,6 +38,14 @@
       		<td th:text="${item.product.caption}">Caption</td>
       		<td th:text="${item.quantity}">Quantity</td> <!-- TODO zde lze input field -->
 <!--       		<td><a th:href="@{/shop/basket/line}+'/'+${item.lineNo}+'/remove'">Remove from basket</a></td> -->
+      		<td>
+      			<form method="post" th:action="@{/shop/basket/remove}">
+<!--       			<a th:href="@{/products}+'/'+${product.id}+'/edit'">Edit</a> -->
+					<input type="hidden" name="productId" th:value="${item.product.id}" />
+					<input type="hidden" name="lineNo" th:value="${item.lineNo}" />
+      				<input type="submit" value="Remove item" class="btn btn-default" />
+      			</form>
+     		</td>
       	</tr>
      	</table>
     </div>

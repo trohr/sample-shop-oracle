@@ -11,6 +11,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import javax.persistence.Cache;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +39,17 @@ public class BasketServiceImpl implements BasketService {
 
 	// Spring-data JPA repository
 	private ShopKosikRepository repository;
-	
+	private EntityManager em;
+
 	@Autowired
 	public void setBasketBackofficeRepository(ShopKosikRepository repository) {
 		this.repository = repository;
+	}
+	
+	@PersistenceContext
+	protected void setEntityManager(EntityManager em)
+	{
+		this.em = em;
 	}
 
 
@@ -77,7 +88,22 @@ public class BasketServiceImpl implements BasketService {
 	{
 		LOGGER.debug(String.format("AddItemToBasket. basketId=%s, productId=%s, quantity=%s", basketId, productId, quantity));
 		repository.addItem (basketId, productId, quantity);
+		Cache cache = em.getEntityManagerFactory().getCache();
+		if (cache != null) {
+			cache.evict(ShopKosik.class, basketId);
+		}
 		return null;
+	}
+	
+	@Override
+	public void removeItemFromBasket(long basketId, long productId, int lineNo)
+	{
+		LOGGER.debug(String.format("RemoveItemFromBasket. basketId=%s, productId=%s, lineNo=%s", basketId, productId, lineNo));
+		repository.removeLine(basketId, lineNo);
+		Cache cache = em.getEntityManagerFactory().getCache();
+		if (cache != null) {
+			cache.evict(ShopKosik.class, basketId);
+		}
 	}
 
 	/**

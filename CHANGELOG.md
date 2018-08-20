@@ -2,10 +2,12 @@ Changelog for sample-shop-oracle
 ================================
 
 ## 20.8.2018
+Feature:
+- Remove item from basket
 
+## 20.8.2018
 Styling of pages using bootstrap.
 Composition of pages done using thymeleaf layout templates.
-
 
 ## 19.8.2018
 Support for basket of selected items.

@@ -26,4 +26,10 @@ public interface ShopKosikRepository extends CrudRepository<ShopKosik, Long>
 			@Param("quantity") int quantity
 	);
 
+	@Procedure (name=ShopKosik.NSPQ_Kosik_removeLine)
+	void removeLine(
+			@Param("p_kosik_id") long basketId,
+			@Param("p_line_no") int lineNo
+	);
+
 }

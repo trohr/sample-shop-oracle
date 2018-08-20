@@ -29,26 +29,28 @@ CREATE OR REPLACE TRIGGER Kosik_id_TRG BEFORE
 END;
 /
   */
-CREATE OR REPLACE PROCEDURE SHOP_Kosik_add_item (
-	kosik_id INTEGER,
-	produkt_id INTEGER,
-	quantity INTEGER DEFAULT 1
+
+CREATE OR REPLACE PROCEDURE SHOP_Kosik_remove_line (
+	p_kosik_id INTEGER,
+	p_line_no INTEGER
 ) AS
-	--kosik_item_id INTEGER;
-	nextLineNumber INTEGER;
-	unit_price     NUMBER (18,2);
+	found_productid INTEGER;
+	ex_not_found EXCEPTION;
+	PRAGMA EXCEPTION_INIT (ex_not_found, -20005);
 BEGIN  -- executable part starts here
-	SELECT max (line_no + 1) INTO nextLineNumber FROM SHOP_Kosik_Item
-	 WHERE SHOP_Kosik_id = kosik_id;
-	select unit_price into unit_price from SHOP_Produkt where id = produkt_id;
-
-	IF nextLineNumber IS NULL THEN
-		nextLineNumber := 1;
+	SELECT SHOP_Produkt_id INTO found_productid
+		FROM SHOP_Kosik_Item WHERE SHOP_Kosik_id = p_kosik_id and line_no = p_line_no;
+	IF found_productid IS NULL THEN
+		RAISE ex_not_found;
 	END IF;
-	
-	-- TODO osetrit pridavani existujiciho produktu do kosiku
-	INSERT INTO SHOP_Kosik_Item (SHOP_Kosik_id, SHOP_Produkt_id, quantity, unit_price, line_no) 
-		VALUES (kosik_id, produkt_id, quantity, unit_price, nextLineNumber);
 
-END SHOP_Kosik_add_item;
+	DELETE FROM SHOP_Kosik_Item WHERE SHOP_Kosik_id = p_kosik_id and line_no = p_line_no;
+EXCEPTION
+	WHEN ex_not_found THEN
+		DBMS_OUTPUT.PUT_LINE('Kosik_item not found!');
+		RAISE_APPLICATION_ERROR(-20005,'Kosik_item not found');
+	WHEN OTHERS THEN
+		NULL; -- for other exceptions do nothing
+END SHOP_Kosik_remove_line;
 /
+

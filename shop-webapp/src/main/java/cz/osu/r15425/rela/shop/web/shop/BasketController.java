@@ -2,12 +2,8 @@ package cz.osu.r15425.rela.shop.web.shop;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -16,20 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import cz.osu.r15425.rela.shop.domain.basket.BasketDto;
 import cz.osu.r15425.rela.shop.domain.basket.BasketService;
-import cz.osu.r15425.rela.shop.domain.product.ProductDefinitionDto;
-import cz.osu.r15425.rela.shop.domain.product.ProductsDefinitionService;
-import cz.osu.r15425.rela.shop.domain.sorting.OrderBy;
 import cz.osu.r15425.rela.shop.web.interceptors.LastModelAndViewInterceptor;
 
 
@@ -94,7 +85,7 @@ public class BasketController {
 		BasketDto basket = getCurrentSessionBasket(session);
 		int quantity = 1;
 		
-		service.addItemToBasket (basket.getId(), productId, quantity);
+		service.addItemToBasket (basket.getId().longValue(), productId, quantity);
 		
 		return "redirect:"+PATH_SHOP_BASKET;
 		/*
@@ -110,6 +101,23 @@ public class BasketController {
 		}
 //		return "redirect:"+
 	 	*/
+	}
+
+	/**
+	 * 3) REMOVE LINE FROM BASKET
+	 */
+	@PostMapping("/remove")
+	public String removeLineFromBasket (
+			@RequestParam (name="productId", required=true) long productId,
+			@RequestParam (name="lineNo", required=true) int lineNo,
+			HttpSession session
+			)
+	{
+		BasketDto basket = getCurrentSessionBasket(session);
+		
+		service.removeItemFromBasket(basket.getId().longValue(), productId, lineNo);
+		
+		return "redirect:"+PATH_SHOP_BASKET;
 	}
 
 	private BasketDto getCurrentSessionBasket (HttpSession session)

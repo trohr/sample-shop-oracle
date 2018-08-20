@@ -28,6 +28,7 @@ public interface BasketService {
 	Optional<BasketDto> findValidBasketByUuid(String string);
 
 	BasketItemDto addItemToBasket(long basketId, long productId, int quantity);
+	void removeItemFromBasket(long basketId, long productId, int lineNo);
 
 //	static public class BasketOrdering
 }
