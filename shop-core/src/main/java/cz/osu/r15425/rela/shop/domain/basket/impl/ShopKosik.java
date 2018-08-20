@@ -3,7 +3,7 @@ package cz.osu.r15425.rela.shop.domain.basket.impl;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 
 /**
@@ -51,7 +51,8 @@ public class ShopKosik implements Serializable
 
 	//bi-directional many-to-one association to BasketItemDto
 	@OneToMany(mappedBy="kosik", cascade={CascadeType.ALL})
-	private Set<ShopKosikItem> items;
+	@OrderBy ("lineNo ASC")
+	private List<ShopKosikItem> items;
 
 	public ShopKosik() {
 	}
@@ -104,11 +105,11 @@ public class ShopKosik implements Serializable
 		this.validUntil = validUntil;
 	}
 
-	public Set<ShopKosikItem> getItems() {
+	public List<ShopKosikItem> getItems() {
 		return this.items;
 	}
 
-	public void setItems(Set<ShopKosikItem> items) {
+	public void setItems(List<ShopKosikItem> items) {
 		this.items = items;
 	}
 
