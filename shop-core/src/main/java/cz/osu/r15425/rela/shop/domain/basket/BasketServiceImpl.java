@@ -59,10 +59,8 @@ public class BasketServiceImpl implements BasketService {
 	@Transactional(propagation=Propagation.REQUIRED, readOnly=true)
 	public BasketDto getBasket(long id) throws EntityNotFoundException
 	{
-		ShopKosik entity = repository.findOne(id);
-		if (entity == null) {
-			throw new EntityNotFoundException("Entity Basket not found for id: "+id);
-		}
+		ShopKosik entity = repository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Entity Basket not found for id: "+id));
 		return assembleDtoFromJpa(entity);
 	}
 
@@ -107,10 +105,9 @@ public class BasketServiceImpl implements BasketService {
 	public BasketDto updateBasket(BasketDto obj)
 			throws EntityNotFoundException
 	{
-		ShopKosik entity = repository.findOne(obj.getId());
-		if (entity == null) {
-			throw new EntityNotFoundException("Entity Basket not found for id: "+obj.getId());
-		}
+		long id = obj.getId().longValue();
+		ShopKosik entity = repository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Entity Basket not found for id: "+id));
 		entity = assembleJpaFromDto(entity, obj);
 		entity = repository.save(entity);
 		return assembleDtoFromJpa(entity);

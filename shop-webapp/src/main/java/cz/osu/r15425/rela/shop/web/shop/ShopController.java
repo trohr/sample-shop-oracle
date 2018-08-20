@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -36,11 +37,11 @@ public class ShopController {
 	// Spring-data JPA repository
 	@Autowired ProductsDefinitionService service;
 	
-	
-	public ShopController() {
-		System.out.println("Controller start");
+	@ModelAttribute("module")
+	public String getModule ()
+	{
+		return "shop";
 	}
-
 	
 	
 	// 
@@ -57,7 +58,7 @@ public class ShopController {
 		if (!StringUtils.hasText(searchByName)) {
 			searchByName = null;
 		}
-		final Optional<OrderBy> priceOrderBy = getOrderingEnum(priceOrdering).map(dir -> new OrderBy("price", dir));
+		final Optional<OrderBy> priceOrderBy = getOrderingEnum(priceOrdering).map(dir -> new OrderBy("unitPrice", dir));
 		
 		final OrderBy[] orderBy = Stream.of (priceOrderBy)
 				.filter(Optional::isPresent)

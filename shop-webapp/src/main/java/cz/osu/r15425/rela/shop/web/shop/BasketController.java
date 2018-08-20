@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,7 +50,13 @@ public class BasketController {
 	// Spring-data JPA repository
 	@Autowired BasketService service;
 	
-	
+
+	@ModelAttribute("module")
+	public String getModule ()
+	{
+		return "basket";
+	}
+
 	
 	// 
 	// LIST
@@ -79,7 +86,7 @@ public class BasketController {
 	 * 2) ADD PRODUCT TO BASKET
 	 */
 	@PostMapping("/add")
-	public ModelAndView addProductToBasket (
+	public String addProductToBasket (
 			@RequestParam (name="productId", required=true) long productId,
 			HttpSession session
 			)
@@ -89,6 +96,8 @@ public class BasketController {
 		
 		service.addItemToBasket (basket.getId(), productId, quantity);
 		
+		return "redirect:"+PATH_SHOP_BASKET;
+		/*
 		Optional<ModelAndView> prevModel = getPreviousModelAndViewBySession(session);
 		if (prevModel.isPresent())
 		{
@@ -100,6 +109,7 @@ public class BasketController {
 			return new ModelAndView("redirect:"+PATH_SHOP_BASKET);
 		}
 //		return "redirect:"+
+	 	*/
 	}
 
 	private BasketDto getCurrentSessionBasket (HttpSession session)

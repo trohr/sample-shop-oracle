@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,11 +41,12 @@ public class ProductsDefinitionController {
 	// Spring-data JPA repository
 	@Autowired ProductsDefinitionService service;
 	
-	
-	public ProductsDefinitionController() {
-		System.out.println("Controller start");
-	}
 
+	@ModelAttribute("module")
+	public String getModule ()
+	{
+		return "admin";
+	}
 	
 	
 	// 
@@ -61,7 +63,7 @@ public class ProductsDefinitionController {
 		if (!StringUtils.hasText(searchByName)) {
 			searchByName = null;
 		}
-		final Optional<OrderBy> priceOrderBy = getOrderingEnum(priceOrdering).map(dir -> new OrderBy("price", dir));
+		final Optional<OrderBy> priceOrderBy = getOrderingEnum(priceOrdering).map(dir -> new OrderBy("unitPrice", dir));
 		
 		final OrderBy[] orderBy = Stream.of (priceOrderBy)
 				.filter(Optional::isPresent)

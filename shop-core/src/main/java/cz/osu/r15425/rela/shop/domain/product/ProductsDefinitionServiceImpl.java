@@ -107,11 +107,9 @@ public class ProductsDefinitionServiceImpl implements ProductsDefinitionService 
 	@Transactional(propagation=Propagation.REQUIRED, readOnly=true)
 	public ProductDefinitionDto getProduct(long id) throws EntityNotFoundException
 	{
-		ShopProdukt entity = repository.findOne(id);
-		if (entity == null) {
-			throw new EntityNotFoundException("Entity Product not found for id: "+id);
-		}
-		return assembleDtoFromJpa(entity);
+		Optional<ShopProdukt> entity = repository.findById(id);
+		return entity.map(ProductsDefinitionServiceImpl::assembleDtoFromJpa)
+			.orElseThrow(() -> new EntityNotFoundException("Entity Product not found for id: "+id));
 	}
 
 	/**
@@ -138,10 +136,9 @@ public class ProductsDefinitionServiceImpl implements ProductsDefinitionService 
 	public ProductDefinitionDto updateProduct(ProductDefinitionDto obj)
 			throws EntityNotFoundException
 	{
-		ShopProdukt entity = repository.findOne(obj.getId());
-		if (entity == null) {
-			throw new EntityNotFoundException("Entity Product not found for id: "+obj.getId());
-		}
+		long id = obj.getId().longValue();
+		ShopProdukt entity = repository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Entity Product not found for id: "+id));
 		entity = assembleJpaFromDto(entity, obj);
 		entity = repository.save(entity);
 		return assembleDtoFromJpa(entity);
@@ -155,7 +152,7 @@ public class ProductsDefinitionServiceImpl implements ProductsDefinitionService 
 	@Transactional(propagation=Propagation.REQUIRED)
 	public void deleteProduct(long id) {
 		// XXX jak se chova Spring-Data Repository, kdyz ji podsunu id neexistujiciho?
-		repository.delete(id);
+		repository.deleteById(id);
 	}
 
 	static ProductDefinitionDto assembleDtoFromJpa (ShopProdukt jpa)

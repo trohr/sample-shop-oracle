@@ -110,6 +110,11 @@ Kod JPA anotovaných tříd vygenerován na základě zavedených tabulek v D Or
 - Připojení na DB Oracle z Eclipse: <https://docs.oracle.com/cd/E14545_01/help/oracle.eclipse.tools.database.doc/html/gettingStarted/files/gettingStarted.html>
 
 
+Volání uložených procedur z Java
+--------------------------------
+- <https://www.javabullets.com/calling-stored-procedures-from-spring-data-jpa/>
+
+
 Modularizace zdrojového kódu (Gradle)
 -------------------------------------
 Rozdělení na projekty: jeden pro práci s DB (_shop-allinone-core_) a jeden pro prezentaci na web (_shop-allinone-webapp_).

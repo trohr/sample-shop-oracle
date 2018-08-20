@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorator="layouts/default">
+<head>
+    <title>Welcome to the SHOP</title>
+</head>
+<body>
+<div class="container" layout:fragment="content">
+    <h2>Backoffice</h2>
+    <p>This section is intended for shop admins only.
+    </p><p>
+    To manage the products and their definitions, click <a th:href="@{/admin/products}">here</a>.
+	</p>
+	
+	<h2>Database Console</h2>
+	<p>
+	Direct access to the database is provided <a th:href="@{/console}" target="_blank">through an integrated H2 console</a>.
+	<br/>On login, use the following settings:
+<pre>
+Driver Class = oracle.jdbc.driver.OracleDriver
+JDBC URL     = jdbc:oracle:thin:@localhost:1521:XE
+User Name    = master
+Password     = master
+</pre>
+	</p>
+</div>
+</body>
+</html>

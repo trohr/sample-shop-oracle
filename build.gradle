@@ -5,7 +5,8 @@ wrapper {
 
 buildscript {
 	ext {
-		springBootVersion = '1.5.7.RELEASE' // uz je 1.5.10.RELEASE // 2.0.0.RC2
+		//springBootVersion = '1.5.7.RELEASE' // uz je 1.5.10.RELEASE // 2.0.0.RC2
+		springBootVersion = '2.0.4.RELEASE'
 		propDepsPluginVersion = '0.0.9.RELEASE'
 		//eclipseLinkJamgoPluginVersion = '0.2.2'
 	}
@@ -226,8 +227,13 @@ project(':shop-allinone-webapp')
 		}
 		// Thymeleaf templating engine
 		compile "org.springframework.boot:spring-boot-starter-thymeleaf"
+		//compile "org.thymeleaf:thymeleaf:3.0.9.RELEASE"
+		// Thymeleaf layout dialect
+		compile "nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.0.5"
 		
-		
+		// WebJars -- Bootstrap + JQuery
+		compile "org.webjars:bootstrap:3.3.7"
+
 		// https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-sql.html
 		// JPA support
 		compile ("org.springframework.boot:spring-boot-starter-data-jpa") {

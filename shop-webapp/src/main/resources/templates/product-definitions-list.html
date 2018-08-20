@@ -1,16 +1,19 @@
-<html xmlns:th="http://www.thymeleaf.org">
-  <head>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorator="layouts/default">
+<head>
     <title>Products List</title>
-    <link rel="stylesheet" th:href="@{/style.css}"></link>
-  </head>
-  <body>
+</head>
+<body>
+<div class="container" layout:fragment="content">
     <h2>Products List</h2>
     
-    	<form method="GET">
-    		Search by name: 
-    		<input type="search" name="searchByName" th:value="${searchByName eq null ? '' : searchByName}"></input>
-				<input type="submit" value="Search"/>
-    	</form>
+   	<form method="GET">
+   		Search by name: 
+   		<input type="search" name="searchByName" th:value="${searchByName eq null ? '' : searchByName}"></input>
+		<input type="submit" value="Search"/>
+   	</form>
     	
     <div th:unless="${#lists.isEmpty(products)}">
     
@@ -19,18 +22,18 @@
     		Sort products by price
 <!--     		<select name="priceOrdering" th:selected="${priceOrdering eq null ? 'NONE' : priceOrdering}"> -->
     		<select name="priceOrdering">
-				  <option value="NONE" th:selected="${priceOrdering eq null}">unspecified</option>
-				  <option value="ASC" th:selected="${priceOrdering == 'ASC'}">ascending</option>
-				  <option value="DESC" th:selected="${priceOrdering == 'DESC'}">descending</option>
-				</select>
-				<input type="submit" value="Sort"/>
+			  <option value="NONE" th:selected="${priceOrdering eq null}">unspecified</option>
+			  <option value="ASC" th:selected="${priceOrdering == 'ASC'}">ascending</option>
+			  <option value="DESC" th:selected="${priceOrdering == 'DESC'}">descending</option>
+			</select>
+			<input type="submit" value="Sort"/>
     	</form>
     	
     	
     	<br />
     	
     	<!-- DATA TABLE -->
-    	<table>
+    	<table class="table table-striped">
     		<tr><!-- HEADER ROW -->
     			<th>Preview</th>
     			<th>Product Name</th>
@@ -39,6 +42,7 @@
     			<th>Caption</th>
 <!--     			<th>Tags</th> -->
     			<th>Specification</th>
+    			<th></th>
     		</tr>
     		
       	<tr th:each="product : ${products}">
@@ -50,7 +54,7 @@
       		<td th:text="${product.caption}">Caption</td>
 <!--       		<td th:text="${product.tags}">Tags</td> -->
       		<td th:text="${product.specification}">Specification</td>
-      		<td><a th:href="@{/products}+'/'+${product.id}+'/edit'">Edit</a></td>
+      		<td><a th:href="@{/admin/products}+'/'+${product.id}+'/edit'" class="btn btn-default">Edit</a></td>
       	</tr>
      	</table>
     </div>
@@ -60,8 +64,8 @@
     </div>
 
 		<hr/>
-    <a th:href="@{/products/create}">Create a New Product</a>
+    <a th:href="@{/admin/products/create}">Create a New Product</a>
     <a th:href="@{/}">Go to the first page</a>
-    
-  </body>
+</div>
+</body>
 </html>
