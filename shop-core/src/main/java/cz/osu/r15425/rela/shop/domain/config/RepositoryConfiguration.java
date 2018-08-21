@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import cz.osu.r15425.rela.shop.domain.basket.impl.ShopKosik;
 import cz.osu.r15425.rela.shop.domain.basket.impl.ShopKosikRepository;
+import cz.osu.r15425.rela.shop.domain.customer.impl.ShopZakaznik;
+import cz.osu.r15425.rela.shop.domain.customer.impl.ShopZakaznikRepository;
 import cz.osu.r15425.rela.shop.domain.product.impl.ShopProdukt;
 import cz.osu.r15425.rela.shop.domain.product.impl.ShopProduktRepository;
 
@@ -34,10 +36,12 @@ import cz.osu.r15425.rela.shop.domain.product.impl.ShopProduktRepository;
 @EntityScan(basePackageClasses= {
 		ShopProdukt.class,
 		ShopKosik.class,
+		ShopZakaznik.class,
 })
 @EnableJpaRepositories(basePackageClasses= {
 		ShopProduktRepository.class,
 		ShopKosikRepository.class,
+		ShopZakaznikRepository.class,
 })
 @EnableTransactionManagement
 public class RepositoryConfiguration

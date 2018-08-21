@@ -25,14 +25,6 @@ import cz.osu.r15425.rela.shop.domain.sorting.OrderBy;
 public class ShopController {
 
 	static final String PATH_SHOP = "/shop";
-	static final String EDIT_PATH(long id) {
-		return String.format("%s/%d/%s/",
-				PATH_SHOP,
-				id,
-				"edit"
-		);
-	}
-
 
 	// Spring-data JPA repository
 	@Autowired ProductsDefinitionService service;

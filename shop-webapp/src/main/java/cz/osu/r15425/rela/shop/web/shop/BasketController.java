@@ -29,13 +29,6 @@ import cz.osu.r15425.rela.shop.web.interceptors.LastModelAndViewInterceptor;
 public class BasketController {
 
 	static final String PATH_SHOP_BASKET = ShopController.PATH_SHOP+"/basket";
-	static final String EDIT_PATH(long id) {
-		return String.format("%s/%d/%s/",
-				PATH_SHOP_BASKET,
-				id,
-				"edit"
-		);
-	}
 
 
 	// Spring-data JPA repository
@@ -103,6 +96,11 @@ public class BasketController {
 	 	*/
 	}
 
+
+	// 
+	// REMOVE FROM BASKET
+	// 
+
 	/**
 	 * 3) REMOVE LINE FROM BASKET
 	 */
@@ -119,6 +117,8 @@ public class BasketController {
 		
 		return "redirect:"+PATH_SHOP_BASKET;
 	}
+
+
 
 	private BasketDto getCurrentSessionBasket (HttpSession session)
 	{

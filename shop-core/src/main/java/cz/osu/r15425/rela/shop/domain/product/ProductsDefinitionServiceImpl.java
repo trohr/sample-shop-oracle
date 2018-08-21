@@ -162,7 +162,7 @@ public class ProductsDefinitionServiceImpl implements ProductsDefinitionService 
 		r.setName(jpa.getName());
 		r.setCode(jpa.getCode());
 		r.setCaption(jpa.getCaption());
-		r.setPrice(jpa.getUnitPrice());
+		r.setUnitPrice(jpa.getUnitPrice());
 		r.setSpecification(jpa.getSpecification());
 		r.setImageUrl(jpa.getImageUrl());
 //		r.setTags(jpa.getTags());
@@ -176,7 +176,7 @@ public class ProductsDefinitionServiceImpl implements ProductsDefinitionService 
 		jpa.setName(dto.getName());
 		jpa.setCode(dto.getCode());
 		jpa.setCaption(dto.getCaption());
-		jpa.setUnitPrice(dto.getPrice());
+		jpa.setUnitPrice(dto.getUnitPrice());
 		jpa.setSpecification(dto.getSpecification());
 		jpa.setImageUrl(dto.getImageUrl());
 //		jpa.setTags(dto.getTags());

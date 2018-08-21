@@ -54,6 +54,12 @@
       <p>There are no items in the basket.</p>
     </div>
     
+    <div th:unless="${#lists.isEmpty(basket.items)}">
+		<form method="post" th:action="@{/shop/basket/checkout}">
+			<input type="submit" value="Checkout" class="btn btn-primary" />
+		</form>
+    </div>
+    
     <div>
     	<!-- Additional information -->
     	<table>

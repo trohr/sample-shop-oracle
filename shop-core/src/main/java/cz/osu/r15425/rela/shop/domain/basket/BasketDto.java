@@ -99,6 +99,10 @@ public class BasketDto implements Serializable, Cloneable
 		return item;
 	}
 
+	public boolean hasItems() {
+		return !getItems().isEmpty();
+	}
+
 	@Override
 	public BasketDto clone() {
 		try {

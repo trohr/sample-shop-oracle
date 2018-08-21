@@ -1,6 +1,11 @@
 Changelog for sample-shop-oracle
 ================================
 
+## 21.8.2018
+Feature:
+- Customer list and detail view
+- saving does not work !!!
+
 ## 20.8.2018
 Feature:
 - Remove item from basket

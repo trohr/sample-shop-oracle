@@ -10,9 +10,16 @@
     <h2>Products List</h2>
     
    	<form method="GET">
-   		Search by name: 
-   		<input type="search" name="searchByName" th:value="${searchByName eq null ? '' : searchByName}"></input>
-		<input type="submit" value="Search"/>
+	   	<div class="form-group">
+	   		<label>Search by name: </label>
+	   		<div class="input-group">
+	   			<input type="search" name="searchByName" th:value="${searchByName eq null ? '' : searchByName}" 
+	   				class="form-control"></input>
+				<span class="input-group-btn">
+					<input type="submit" value="Search" class="btn btn-default"/>
+				</span>
+			</div>
+		</div>
    	</form>
     	
     <div th:unless="${#lists.isEmpty(products)}">
@@ -50,7 +57,7 @@
       		
       		<td th:text="${product.name}">Product Name</td>
       		<td th:text="${product.code}">Product Code</td>
-      		<td th:text="${product.price}">Price</td>
+      		<td th:text="${product.unitPrice}">Price</td>
       		<td th:text="${product.caption}">Caption</td>
 <!--       		<td th:text="${product.tags}">Tags</td> -->
       		<td th:text="${product.specification}">Specification</td>
@@ -64,8 +71,8 @@
     </div>
 
 		<hr/>
-    <a th:href="@{/admin/products/create}">Create a New Product</a>
-    <a th:href="@{/}">Go to the first page</a>
+    <a th:href="@{/admin/products/create}" class="btn btn-primary">Create a New Product</a>
+    <a th:href="@{/}" class="btn btn-link">Go to the first page</a>
 </div>
 </body>
 </html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorator="layouts/default">
+<head>
+    <title>Customers List</title>
+</head>
+<body>
+<div class="container" layout:fragment="content">
+    <h2>Customers List</h2>
+    
+    <div th:unless="${#lists.isEmpty(customers)}">
+    
+    	<!-- DATA TABLE -->
+    	<table class="table table-striped">
+    		<tr><!-- HEADER ROW -->
+    			<th>ID</th>
+    			<th>Type</th>
+    			<th>Name</th>
+    			<th>Email</th>
+    			<th>Phone</th>
+<!--     			<th>Address</th> -->
+				<th></th>
+    		</tr>
+    		
+      	<tr th:each="customer : ${customers}">
+      		<td th:text="${customer.id}">ID</td>
+      		<td th:text="${customer.type == 'P' ? 'Person' : customer.type == 'C' ? 'Company' : 'Unknown'}">Customer Type</td>
+      		<td th:text="${customer.name}">Name</td>
+      		<td th:text="${customer.email}">E-mail</td>
+      		<td th:text="${customer.phone}">Phone</td>
+      		<td><a th:href="@{/admin/customers}+'/'+${customer.id}+'/edit'" class="btn btn-default">Edit</a></td>
+      	</tr>
+     	</table>
+    </div>
+    
+    <div th:if="${#lists.isEmpty(customers)}">
+      <p>There are no customers in the system.</p>
+    </div>
+
+		<hr/>
+    <a th:href="@{/admin/customers/create}" class="btn btn-primary">Create a New Customer</a>
+    <a th:href="@{/}" class="btn btn-link">Go to the first page</a>
+</div>
+</body>
+</html>

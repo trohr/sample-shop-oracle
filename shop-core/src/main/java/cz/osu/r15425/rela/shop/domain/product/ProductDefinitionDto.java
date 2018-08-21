@@ -17,7 +17,7 @@ public class ProductDefinitionDto {
 	private String code;
 	private String name;
 	private String caption;
-	private BigDecimal price;
+	private BigDecimal unitPrice;
 	private String specification;
 	private String imageUrl;
 //	private String tags;
@@ -55,11 +55,11 @@ public class ProductDefinitionDto {
 		this.caption = caption;
 	}
 	
-	public BigDecimal getPrice() {
-		return price;
+	public BigDecimal getUnitPrice() {
+		return unitPrice;
 	}
-	public void setPrice(BigDecimal price) {
-		this.price = price;
+	public void setUnitPrice(BigDecimal price) {
+		this.unitPrice = price;
 	}
 
 	public String getSpecification() {
@@ -84,7 +84,7 @@ public class ProductDefinitionDto {
 		builder.append("code\"=\"").append(code).append("\", ");
 		builder.append("name\"=\"").append(name).append("\", ");
 		//sbuilder.append("caption\"=\"").append(caption).append("\", ");
-		builder.append("price\"=\"").append(price).append("\"");
+		builder.append("unitPrice\"=\"").append(unitPrice).append("\"");
 		
 //		if (specification != null)
 //			builder.append("specification\"=\"").append(specification).append("\", ");

@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 import cz.osu.r15425.rela.shop.domain.basket.BasketServiceImpl;
+import cz.osu.r15425.rela.shop.domain.customer.CustomerManagementServiceImpl;
 import cz.osu.r15425.rela.shop.domain.product.ProductsDefinitionServiceImpl;
 
 /**
@@ -26,7 +27,8 @@ import cz.osu.r15425.rela.shop.domain.product.ProductsDefinitionServiceImpl;
 	@ComponentScan(basePackageClasses= {
 			//"cz.osu.r15425.rela.shop.domain.product"
 			ProductsDefinitionServiceImpl.class,
-			BasketServiceImpl.class
+			BasketServiceImpl.class,
+			CustomerManagementServiceImpl.class,
 	})
 })
 public class DomainServicesConfiguration

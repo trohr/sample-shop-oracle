@@ -9,47 +9,81 @@
 <div class="container" layout:fragment="content">
     <h2>Product</h2>
     
-    <form method="POST">
-      <label for="name">Code:</label>
-        <input type="text" name="code" size="32" maxlength="32" th:value="${product == null ? '' : product.name}"></input>
-      <br/>
+    <form method="POST" th:object="${product}">
+		<label th:if="${#fields.hasErrors('*')}" th:text="'Errors: '">Errors: </label>
+		<ul>
+			<li th:each="err: ${#fields.errors('*')}" th:text="${err}"></li>
+		</ul>
+		
+		<div class="form-group">
+			<label for="code">Code:</label>
+			<input type="text" name="code" class="form-control"
+				size="32" maxlength="32" th:field="*{code}" />
+			<span class="error" th:if="${#fields.hasErrors('code')}"
+				th:errors="*{code}">Error in Code</span>
+			<!--
+			<input type="text" name="code" class="form-control"
+				size="32" maxlength="32" th:value="${product == null ? '' : product.name}" />
+			-->
+		</div>
+		<div class="form-group">
+			<label for="name">Name:</label>
+			<input type="text" name="name" class="form-control"
+				size="50" maxlength="128" th:field="*{name}" />
+			<span class="error" th:if="${#fields.hasErrors('name')}"
+				th:errors="*{name}">Error in Name</span>
+		</div>
     
-      <label for="name">Name:</label>
-        <input type="text" name="name" size="50" maxlength="128" th:value="${product == null ? '' : product.name}"></input>
-      <br/>
-
-      <label for="caption">Caption:</label>
-        <input type="text" name="caption" maxlength="256" th:value="${product == null ? '' : product.caption}"></input>
-      <br/>
-      
-      <label for="price">Price:</label>
-        <input type="number" name="price" step="0.1" th:value="${product == null ? '' : product.price}"></input>
-      <br/>
-      
-      <label for="specification">Specification:</label>
-      <br/>
-      <textarea rows="10" maxlength="2048" name="specification" th:value="${product == null ? '' : product.specification}"></textarea>
-      <br/>
-      
-      <!-- 
-      <label for="tags">Tags:</label>
-        <input type="text" name="tags" maxlength="256" th:value="${product == null ? '' : product.tags}"></input>
-      <br/>
-      -->
-      
-      <label for="imageUrl">Image URL:</label>
-        <input type="text" name="imageUrl" maxlength="256" th:value="${product == null ? '' : product.imageUrl}" />
-      <br/>
-
-			<input type="hidden" th:value="${product.id}" th:unless="${product eq null}" />
-			
-      <input type="submit" value="Save Product" th:unless="${product eq null}" />
-      <input type="submit" value="Create Product" th:if="${product eq null}" />
+		<div class="form-group">
+			<label for="caption">Caption:</label>
+			<input type="text" name="caption" class="form-control"
+				size="50" maxlength="256" th:field="*{caption}" />
+			<span class="error" th:if="${#fields.hasErrors('caption')}"
+				th:errors="*{caption}">Error in Caption</span>
+		</div>
+    
+		<div class="form-group">
+			<label for="unitPrice">Unit Price:</label>
+			<input type="number" name="unitPrice" class="form-control"
+				step="0.1" th:field="*{unitPrice}" />
+			<span class="error" th:if="${#fields.hasErrors('unitPrice')}"
+				th:errors="*{unitPrice}">Error in UnitPrice</span>
+		</div>
+    
+		<div class="form-group">
+			<label for="specification">Specification:</label>
+			<textarea name="specification" class="form-control"
+				rows="10" maxlength="2048" th:field="*{specification}"></textarea>
+			<span class="error" th:if="${#fields.hasErrors('specification')}"
+				th:errors="*{specification}">Error in Specification</span>
+		</div>
+    
+		<div class="form-group">
+			<label for="imageUrl">Image URL:</label>
+			<input type="text" name="imageUrl" class="form-control"
+				maxLength="256" th:field="*{imageUrl}" />
+			<span class="error" th:if="${#fields.hasErrors('imageUrl')}"
+				th:errors="*{imageUrl}">Error in Image URL</span>
+		</div>
+		
+    	<!--
+		<div class="form-group">
+			<label for="code">Code:</label>
+			<input type="text" name="code" class="form-control"
+				size="50" maxlength="128" th:field="*{code}" />
+			<span class="error" th:if="${#fields.hasErrors('code')}"
+				th:errors="*{code}">Error in Code</span>
+		</div>
+    	-->
+		
+    	<input type="hidden" th:value="${product.id}" th:unless="${product eq null}" />
+		<input type="submit" value="Save Product" th:unless="${product eq null}" class="btn btn-primary" />
+		<input type="submit" value="Create Product" th:if="${product eq null}" class="btn btn-primary" />
     </form>
     <hr />
     <form th:unless="${product eq null}" method="POST" th:action="@{/products}+'/'+${product.id}+'/delete'">
     	<input type="hidden" th:value="${product.id}" />
-    	<input type="submit" value="Delete" />
+    	<input type="submit" value="Delete" class="btn btn-danger" />
     </form>
     	
     <a th:href="@{/admin/products}">Back to the list of all products</a>

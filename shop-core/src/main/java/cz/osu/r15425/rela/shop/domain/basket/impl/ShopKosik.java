@@ -26,6 +26,7 @@ import java.util.List;
 				@StoredProcedureParameter(mode=ParameterMode.IN, name="p_line_no", type=Integer.class),
 		})
 })
+//@Nam
 public class ShopKosik implements Serializable
 {
 	private static final long serialVersionUID = 1L;

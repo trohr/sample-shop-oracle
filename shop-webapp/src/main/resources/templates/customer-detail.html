@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorator="layouts/default">
+<head>
+    <title>Customer</title>
+</head>
+<body>
+<div class="container" layout:fragment="content">
+    <h2>Customer</h2>
+    
+    <form method="POST" th:object="${customer}">
+		<label th:if="${#fields.hasErrors('*')}" th:text="'Errors: '">Errors: </label>
+		<ul>
+			<li th:each="err: ${#fields.errors('*')}" th:text="${err}"></li>
+		</ul>
+		
+		<div th:if="${customer.type == 'P' || customer.type == null}" class="row">
+			
+			<div class="form-group col-sm-6">
+				<label for="surname">Surname:</label>
+				<input type="text" name="personalData.surname" class="form-control"
+					size="32" maxlength="60" th:field="*{personalData.surname}" />
+				<span class="error" th:if="${#fields.hasErrors('personalData.surname')}"
+					th:errors="*{code}">Error in Surname</span>
+			</div>
+			<div class="form-group col-sm-6">
+				<label for="firstName">First name:</label>
+				<input type="text" name="personalData.firstName" class="form-control"
+					size="32" maxlength="60" th:field="*{personalData.firstName}" />
+				<span class="error" th:if="${#fields.hasErrors('personalData.firstName')}"
+					th:errors="*{code}">Error in First Name</span>
+			</div>
+			
+			<div class="form-group col-sm-6">
+				<label for="titleBefore">Title Before Name:</label>
+				<input type="text" name="personalData.titleBefore" class="form-control"
+					size="32" maxlength="32" th:field="*{personalData.titleBefore}" />
+				<span class="error" th:if="${#fields.hasErrors('personalData.titleBefore')}"
+					th:errors="*{code}">Error in Title Before</span>
+			</div>
+			<div class="form-group col-sm-6">
+				<label for="titleAfter">Title After Name:</label>
+				<input type="text" name="personalData.titleAfter" class="form-control"
+					size="32" maxlength="32" th:field="*{personalData.titleAfter}" />
+				<span class="error" th:if="${#fields.hasErrors('personalData.titleAfter')}"
+					th:errors="*{code}">Error in Title After</span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="email">Email address:</label>
+			<input type="text" name="email" class="form-control"
+				size="50" maxlength="256" th:field="*{email}" />
+			<span class="error" th:if="${#fields.hasErrors('email')}"
+				th:errors="*{email}">Error in Email</span>
+		</div>
+		<div class="form-group">
+			<label for="phone">Telephone number:</label>
+			<input type="text" name="phone" class="form-control"
+				size="50" maxlength="256" th:field="*{phone}" />
+			<span class="error" th:if="${#fields.hasErrors('phone')}"
+				th:errors="*{phone}">Error in "phone"</span>
+		</div>
+    
+   		<!-- Shipping address -->
+    	<div>
+    		<h3>Shipping address</h3>
+			<div class="form-group">
+				<label for="shippingAddress.street">Street:</label>
+				<input type="text" name="shippingAddress.street" class="form-control"
+					maxlength="64" th:field="*{shippingAddress.street}" />
+				<span class="error" th:if="${#fields.hasErrors('shippingAddress.street')}"
+					th:errors="*{shippingAddress.street}">Error in Street</span>
+			</div>
+
+			<div class="form-group">
+				<label for="shippingAddress.houseNo">House number:</label>
+				<input type="text" name="shippingAddress.houseNo" class="form-control"
+					maxlength="32" th:field="*{shippingAddress.houseNo}" />
+				<span class="error" th:if="${#fields.hasErrors('shippingAddress.houseNo')}"
+					th:errors="*{shippingAddress.houseNo}">Error in House No.</span>
+			</div>
+
+			<div class="form-group">
+				<label for="shippingAddress.town">Town:</label>
+				<input type="text" name="tshippingAddress.own" class="form-control"
+					maxlength="64" th:field="*{invoiceAddress.town}" />
+				<span class="error" th:if="${#fields.hasErrors('shippingAddress.town')}"
+					th:errors="*{shippingAddress.town}">Error in Town</span>
+			</div>
+
+			<div class="form-group">
+				<label for="shippingAddress.postCode">House number:</label>
+				<input type="text" name="postCode" class="form-control"
+					maxlength="32" th:field="*{shippingAddress.postCode}" />
+				<span class="error" th:if="${#fields.hasErrors('shippingAddress.postCode')}"
+					th:errors="*{postCode}">Error in House No.</span>
+			</div>
+			<div class="form-group">
+				<label for="shippingAddress.district">District:</label>
+				<input type="text" name="shippingAddress.district" class="form-control"
+					maxlength="64" th:field="*{shippingAddress.district}" />
+				<span class="error" th:if="${#fields.hasErrors('shippingAddress.district')}"
+					th:errors="*{district}">Error in District</span>
+			</div>
+    	</div>
+
+    	<div>
+    		<h3>Invoice address</h3>
+    		<!-- Invoice address -->
+			<div class="checkbox">
+				<label>
+					<input type="checkbox" name="invoiceAddressIsShippingAddress"
+						 th:field="*{invoiceAddressIsShippingAddress}"> Invoice address is same as shipping address</input>
+				</label>
+			</div>
+
+			<div class="form-group">
+				<label for="invoiceAddress.street">Street:</label>
+				<input type="text" name="invoiceAddress.street" class="form-control"
+					maxlength="64" th:field="*{invoiceAddress.street}" />
+				<span class="error" th:if="${#fields.hasErrors('invoiceAddress.street')}"
+					th:errors="*{invoiceAddress.street}">Error in Street</span>
+			</div>
+
+			<div class="form-group">
+				<label for="invoiceAddress.houseNo">House number:</label>
+				<input type="text" name="invoiceAddress.houseNo" class="form-control"
+					maxlength="32" th:field="*{invoiceAddress.houseNo}" />
+				<span class="error" th:if="${#fields.hasErrors('invoiceAddress.houseNo')}"
+					th:errors="*{invoiceAddress.houseNo}">Error in House No.</span>
+			</div>
+
+			<div class="form-group">
+				<label for="invoiceAddress.town">Town:</label>
+				<input type="text" name="tinvoiceAddress.own" class="form-control"
+					maxlength="64" th:field="*{invoiceAddress.town}" />
+				<span class="error" th:if="${#fields.hasErrors('invoiceAddress.town')}"
+					th:errors="*{invoiceAddress.town}">Error in Town</span>
+			</div>
+
+			<div class="form-group">
+				<label for="invoiceAddress.postCode">House number:</label>
+				<input type="text" name="postCode" class="form-control"
+					maxlength="32" th:field="*{invoiceAddress.postCode}" />
+				<span class="error" th:if="${#fields.hasErrors('invoiceAddress.postCode')}"
+					th:errors="*{postCode}">Error in House No.</span>
+			</div>
+			<div class="form-group">
+				<label for="invoiceAddress.district">District:</label>
+				<input type="text" name="invoiceAddress.district" class="form-control"
+					maxlength="64" th:field="*{invoiceAddress.district}" />
+				<span class="error" th:if="${#fields.hasErrors('invoiceAddress.district')}"
+					th:errors="*{district}">Error in District</span>
+			</div>
+    	</div>
+    	
+		
+    	<input type="hidden" th:value="${customer.id}" th:unless="${customer eq null}" />
+		<input type="submit" value="Save Customer" th:unless="${customer eq null}" class="btn btn-primary" />
+		<input type="submit" value="Create Customer" th:if="${customer eq null}" class="btn btn-primary" />
+    </form>
+    <hr />
+    <form th:unless="${customer eq null}" method="POST" th:action="@{/customers}+'/'+${customer.id}+'/delete'">
+    	<input type="hidden" th:value="${customer.id}" />
+    	<input type="submit" value="Delete" class="btn btn-danger" />
+    </form>
+    	
+    <a th:href="@{/admin/customers}">Back to the list of all customers</a>
+</div>
+</body>
+</html>
